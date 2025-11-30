@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Token menen kiriw bólimi</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Token menen kiriw</h2>
+
+    {% if messages %}
+      <div style="color:red; margin-bottom:12px;">
+        {% for m in messages %}
+          <div>{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form id="token-form" method="post">
+      {% csrf_token %}
+      <div class="input-box">
+        <textarea id="token" name="token" placeholder="Kiriw tokeni usı jerge taslań" rows="4" style="width:100%; border-radius:8px; padding:8px;"></textarea>
+      </div>
+
+      <button id="submit-btn" type="submit">Kirish</button>
+
+      <div style="margin-top:12px; text-align:center;">
+        <a href="{% url 'login' %}" class="beautiful-btn">Login hám parol arqalı kiriw</a>
+      </div>
+    </form>
+
+    <div style="margin-top:20px;">
+      <p style="font-weight:bold">Esletpe:</p>
+      <p>Kiriw tokeni Tek ǵana login arqalı alın. Tokenler jasırın - hesh kimge bermeń. Eger token múddeti ótken bolsa, taǵı login arqalı tazadan alın.</p>
+    </div>
+  </div>
+
+  <script>
+    // eger siz JS arqalı jibermekshi bolsańız - tómendegi iske tusiriwge boladi
+    // egerde form POST jiberdi hám server qaytardı
+    (function(){
+      const form = document.getElementById('token-form');
+      const submitBtn = document.getElementById('submit-btn');
+      form.addEventListener('submit', async (e) => {
+        //Eger siz ápiwayı POST menen islewdi qáleseńiz, bul handlerdi alıp taslań.
+        //Bul handler Fetch arqalı jiberedi hám xabarlardı betde shıǵaradı (AJAX).
+        e.preventDefault();
+        const token = document.getElementById('token').value.trim();
+        if(!token){
+          alert('Iltimas token kiritiń.');
+          return;
+        }
+        submitBtn.disabled = true;
+        const original = submitBtn.textContent;
+        submitBtn.textContent = 'Tekserilip atır...';
+
+        // CSRF cookie járdemshi
+        function getCookie(name){
+          const cookies = document.cookie ? document.cookie.split('; ') : [];
+          for(let i=0;i<cookies.length;i++){
+            const parts = cookies[i].split('=');
+            const key = parts.shift();
+            const value = parts.join('=');
+            if(key === name) return decodeURIComponent(value);
+          }
+          return null;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        try {
+          const resp = await fetch("{% url 'token_login' %}", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'X-CSRFToken': csrftoken || ''
+            },
+            body: new URLSearchParams({token})
+          });
+
+          // Eger server redirect jiberse 302 browser fetch qabıl qılmaydı avtomatik redirectni.
+          // Sonıń ushın serverdi POST menen islewge boladiı
+          if(resp.redirected){
+            window.location.href = resp.url;
+            return;
+          }
+          // Eger JSON yamasa HTML qaytarsa — tekseredi:
+          if(resp.ok){
+            // Tabıslı redirect qılınadı
+            window.location.href = "/dashboard/";
+            return;
+          }
+          // Qátelik
+          const text = await resp.text();
+          alert('Token tekserilmedi.' + (text ? '\n' + text : ''));
+        } catch (err){
+          console.error(err);
+          alert('Taqmaq qátesi.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = original;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

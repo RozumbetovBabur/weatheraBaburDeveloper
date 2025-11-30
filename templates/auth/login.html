@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login bólimi</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <!-- Form-wide message -->
+        <div id="form-message" style="display:none;color:red;margin-bottom:12px;"></div>
+
+        <form id="login-form">
+            <div class="input-box">
+                <input id="username"  type="text" name="username" placeholder="Username kiritiń" required>
+            </div>
+            <div class="input-box">
+                <input id="password" type="password" name="password" placeholder="Password kiritiń" required>
+            </div>
+            <button id="submit-btn" type="submit">Login</button>
+            <div class="register-link">
+                Akkaunt Sizde joqba? <a href="{% url 'register' %}">Dizimnen ótiw</a>
+            </div>
+        </form>
+
+        <!-- Token blok: Daslep jasırın -->
+        <div id="token-box" style="display:none; margin-top:20px;">
+            <h3>Tokenler</h3>
+            <p style="margin:0 0 8px 0;">
+              Tómendegi tokenler logıńız ushın jaratılǵan. <strong>Dıqqat:</strong> tokenlerdi hesh kimge bermeń.
+            </p>
+
+            <label>Kiriw tokeni</label>
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+              <textarea id="access-token" readonly rows="3" style="width:100%; resize:vertical;"></textarea>
+              <button id="copy-access" type="button">Nusqa kóshiriw</button>
+            </div>
+
+            <label>Tokendi jańalaw</label>
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+              <textarea id="refresh-token" readonly rows="3" style="width:100%; resize:vertical;"></textarea>
+              <button id="copy-refresh" type="button">Nusqa kóshiriw</button>
+            </div>
+
+            <div style="margin-top:12px;">
+              <button id="go-home" type="button">Bas betke ótiw</button>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    // CSRF cookie járdemshisi
+    function getCookie(name) {
+      const cookies = document.cookie ? document.cookie.split('; ') : [];
+      for (let i=0;i<cookies.length;i++){
+        const parts = cookies[i].split('=');
+        const key = parts.shift();
+        const value = parts.join('=');
+        if(key === name) return decodeURIComponent(value);
+      }
+      return null;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    const form = document.getElementById('login-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formMessage = document.getElementById('form-message');
+
+    // token UI elementleri
+    const tokenBox = document.getElementById('token-box');
+    const accessEl = document.getElementById('access-token');
+    const refreshEl = document.getElementById('refresh-token');
+    const copyAccessBtn = document.getElementById('copy-access');
+    const copyRefreshBtn = document.getElementById('copy-refresh');
+    const goHomeBtn = document.getElementById('go-home');
+
+    // Járdemshi: forma xabarın kórsetiw
+    function showFormMessage(type, text){
+      formMessage.style.display = 'block';
+      formMessage.style.color = (type === 'error') ? 'crimson' : 'green';
+      formMessage.textContent = text;
+    }
+
+    // Nusha aliw járdemshesi
+    async function copyToClipboard(text){
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch(e){
+          console.warn('Clipboard write failed', e);
+        }
+      }
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        return true;
+      } catch(e){
+        document.body.removeChild(ta);
+        return false;
+      }
+    }
+
+    copyAccessBtn.addEventListener('click', async () => {
+      const ok = await copyToClipboard(accessEl.value);
+      showFormMessage('success', ok ? 'Kiriw token nusqa alındı.' : 'Nusqa alıwda qátelik juz berdi.');
+      setTimeout(()=> formMessage.style.display = 'none', 2500);
+    });
+    copyRefreshBtn.addEventListener('click', async () => {
+      const ok = await copyToClipboard(refreshEl.value);
+      showFormMessage('success', ok ? 'Refresh token nusqa alındı.' : 'Nusqa alıwda qátelik juz berdi.');
+      setTimeout(()=> formMessage.style.display = 'none', 2500);
+    });
+
+    // default goHome behavior (eger token kórsetilmegen bolsa)
+    goHomeBtn.addEventListener('click', () => {
+      window.location.href = '/home';
+    });
+
+    // MAIN submit handler: login menen token alamız
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formMessage.style.display = 'none';
+      tokenBox.style.display = 'none';
+      accessEl.value = '';
+      refreshEl.value = '';
+
+      const payload = {
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value
+      };
+
+      if(!payload.username || !payload.password){
+        showFormMessage('error', 'Login hám parol kiritiliwi shárt!.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Jiberilmekte...';
+
+      try {
+        const headers = {'Content-Type': 'application/json'};
+        if(csrftoken) headers['X-CSRFToken'] = csrftoken;
+
+        const resp = await fetch('/auth/login', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(payload),
+          credentials: csrftoken ? 'include' : 'same-origin'
+        });
+
+        const data = await resp.json().catch(()=>null);
+
+        if(resp.ok && data){
+          // egerde serverden token jibergen bolsa, faydalaniwshıǵa kórsetemiz hám formdı jasıramız
+          if(data.token && (data.token.access || data.token.refresh)){
+            accessEl.value = data.token.access || '';
+            refreshEl.value = data.token.refresh || '';
+            tokenBox.style.display = 'block';
+
+            // === HERE: hide the username/password form ===
+            form.style.display = 'none';
+
+            // === change goHome button to point to token-login page ===
+            goHomeBtn.textContent = 'Token arqalı kiriw';
+            goHomeBtn.onclick = () => {
+              // Paydalanıwshı tokennen jaylastırıw mumkin bolǵan token-login web betge jiberip qoyamız
+              window.location.href = '/auth/token-login';
+            };
+
+            showFormMessage('success', "Token tabıslı turde jaratıldı. Token arqalı kiriw tuymesi jaratıldı hám iske tusti.");
+          } else {
+            // eger token joq bolsa biraq user maluwmatlari bolsa redirect qiliw kerak
+            if(data.user){
+              showFormMessage('success', 'Kiriw tabıslı turde jaratildı. Bas betge ótkeredi.');
+              // optional: saqlaw hám redirect
+              setTimeout(()=> window.location.href = '/home', 700);
+            } else {
+              showFormMessage('error', 'Tokenler alınbadı.');
+            }
+          }
+        } else {
+          formMessage.style.display = 'block';
+          formMessage.textContent = data?.detail || 'Kiriwde qáte júz berdi.';
+        }
+      } catch (err) {
+        formMessage.style.display = 'block';
+        formMessage.textContent = 'Taqmaq qáteligi. Iltimas tekserip kóriń.';
+        console.error(err);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  </script>
+</body>
+</html>

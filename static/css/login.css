@@ -1,0 +1,134 @@
+/* static/css/login.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #5dade2, #85c1e9); /* ochiq ko‘k fon */
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    width: 380px; /* biroz kattaroq qilib oldik */
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.15); /* shaffof fon */
+    backdrop-filter: blur(12px); /* blur effekti */
+    border-radius: 18px;
+    box-shadow: 0px 0px 25px rgba(0,0,0,0.25);
+    color: #fff;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.input-box {
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%;
+    padding: 13px 15px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    appearance: none; /* select arrow defaultni olib tashlash */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http://www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'white'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 10px 6px;
+}
+
+.input-box input::placeholder,
+.input-box select option {
+    color: #f0f0f0;
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+    color: #000;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #21618c;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #1b4f72;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.register-link {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Select box dizayni */
+.input-box select {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.3); /* shaffof fon */
+    color: #fff;
+    font-size: 15px;
+    appearance: none; /* default arrow ni olib tashlash */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: 0.3s;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http://www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'white'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px 6px;
+}
+
+.input-box select:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.input-box select:focus {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    color: #000; /* tanlangan textni o‘zgartirish uchun */
+}

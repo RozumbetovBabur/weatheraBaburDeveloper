@@ -1,0 +1,16 @@
+{
+    "Toshkent": ["Toshkent shahar", "Olmazor", "Chilonzor", "Uchtepa", "Bektemir", "Mirza Ulug'bek", "Mirobod", "Sergeli", "Shayxantohur", "Yunusobod", "Yakkasaroy"],
+    "Samarqand": ["Samarqand shahar", "Urgut", "Kattaqorgon", "Narpay", "Bulung'ur", "Jomboy", "Ishtixon", "Qo'shrabod", "Narpay"],
+    "Farg‘ona": ["Farg‘ona shahar", "Qo‘qon", "Marg‘ilon", "Yozyovon", "Beshariq","Bog'dod","Buvayda","Dang'ara"],
+    "Andijon": ["Andijon shahar", "Xo‘jaobod", "Asaka", "Shahrixon", "Andijon","Baliqchi", "Buloqboshi","Bo'ston","Jalaquduq", "Izbosqan"],
+    "Buxoro": ["Buxoro shahar", "G‘ijduvon", "Romitan", "Vobkent","Bobkent", "Jondor","Kogon","Qorako'l","Olot","Peshku","Romitan"],
+    "Navoiy": ["Navoiy shahar", "Karmana", "Navbahor","Zarafshon","Qiziltepa","Konimex","Nurota"],
+    "Jizzax": ["Jizzax shahar", "Zafarobod", "Forish", "Arnasoy", "Baxmal", "Gallaoral", "Do'stlik", "Zomin"],
+    "Qashqadaryo": ["Qarshi shahar", "Kitob", "Shahrisabz", "G'uzor","Dehqonobod", "Qamashi", "Qarshi", "Kasbi"],
+    "Surxondaryo": ["Termiz shahar", "Boysun", "Sherobod", "Angor", "Bandixon", "Denov", "Jarqao'lg'on", "Qiziriq", "Qumqo'rg'on"],
+    "Sirdaryo": ["Guliston shahar", "Boyovut", "Yangiyer", "Guliston", "Mirzaobod", "Oqoltin", "Sayhunobod", "Sardoba"],
+    "Namangan": ["Namangan shahar", "Kosonsoy", "Pop", "Mingbuloq","Norin","To'raqo'rg'on", "Uychi","Uchro'rg'on"],
+    "Xorazm": ["Urganch shahar", "Xiva", "Shovot","Bog'ot","Gurlan","Qo'shko'pir","Tuproqqall'a","Urganch","Xazorasp","Xonqa"],
+    "Qoraqalpog‘iston Respublikasi": ["Nukus shahar", "Nukus tumani", "Kegeyli", "Chimboy", "Qorao'zek", "Taxtako'pir", "Taxiatosh", "Xo'jayli", "Sho'manoy", "Qonliko'l", "Qo'ng'irot", "Mo‘ynoq", "To'rtkul", "Ellikqall'a", "Beruniy", "Amudaryo", "Bo'zatov"],
+    "Toshkent viloyati": ["Angren", "Bekobod", "Chirchiq","Bo'ka","Bo'stonlik", "Zangiota","Qibray"]
+}

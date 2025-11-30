@@ -1,0 +1,159 @@
+{
+  "Toshkent": [
+    {"name": "Toshkent shahar", "lat": 41.2995, "lon": 69.2401},
+    {"name": "Olmazor", "lat": 41.3090, "lon": 69.2260},
+    {"name": "Chilonzor", "lat": 41.2678, "lon": 69.1912},
+    {"name": "Uchtepa", "lat": 41.3250, "lon": 69.2167},
+    {"name": "Bektemir", "lat": 41.2567, "lon": 69.3358},
+    {"name": "Mirzo Ulug'bek", "lat": 41.3397, "lon": 69.2856},
+    {"name": "Mirobod", "lat": 41.3250, "lon": 69.2500},
+    {"name": "Sergeli", "lat": 41.2150, "lon": 69.1960},
+    {"name": "Shayxantohur", "lat": 41.3231, "lon": 69.2287},
+    {"name": "Yunusobod", "lat": 41.3660, "lon": 69.2540},
+    {"name": "Yakkasaroy", "lat": 41.3190, "lon": 69.2350}
+  ],
+  "Samarqand": [
+    {"name": "Samarqand shahar", "lat": 39.6542, "lon": 66.9597},
+    {"name": "Urgut", "lat": 39.5000, "lon": 66.8550},
+    {"name": "Kattaqorgon", "lat": 39.5200, "lon": 66.2500},
+    {"name": "Narpay", "lat": 39.5560, "lon": 66.8500},
+    {"name": "Bulung'ur", "lat": 39.8520, "lon": 67.2010},
+    {"name": "Jomboy", "lat": 39.8000, "lon": 66.7000},
+    {"name": "Ishtixon", "lat": 39.3300, "lon": 66.8000},
+    {"name": "Qo'shrabod", "lat": null, "lon": null}
+  ],
+  "Farg‘ona": [
+    {"name": "Farg‘ona shahar", "lat": 40.3894, "lon": 71.7848},
+    {"name": "Qo‘qon", "lat": 40.5536, "lon": 70.9436},
+    {"name": "Marg‘ilon", "lat": 40.3746, "lon": 71.6823},
+    {"name": "Yozyovon", "lat": 40.2000, "lon": 71.7000},
+    {"name": "Beshariq", "lat": 40.2750, "lon": 71.4900},
+    {"name": "Bog'dod", "lat": null, "lon": null},
+    {"name": "Buvayda", "lat": null, "lon": null},
+    {"name": "Dang'ara", "lat": 40.1200, "lon": 71.7800}
+  ],
+  "Andijon": [
+    {"name": "Andijon shahar", "lat": 40.7828, "lon": 72.3442},
+    {"name": "Xo‘jaobod", "lat": 40.6070, "lon": 72.3300},
+    {"name": "Asaka", "lat": 40.5850, "lon": 72.3200},
+    {"name": "Shahrixon", "lat": 40.8500, "lon": 72.1600},
+    {"name": "Andijon", "lat": 40.7828, "lon": 72.3442},
+    {"name": "Baliqchi", "lat": 40.5170, "lon": 72.2400},
+    {"name": "Buloqboshi", "lat": 40.6400, "lon": 72.3500},
+    {"name": "Bo'ston", "lat": null, "lon": null},
+    {"name": "Jalaquduq", "lat": 40.7000, "lon": 72.1500},
+    {"name": "Izbosqan", "lat": 40.7500, "lon": 72.3000}
+  ],
+  "Buxoro": [
+    {"name": "Buxoro shahar", "lat": 39.7747, "lon": 64.4286},
+    {"name": "G‘ijduvon", "lat": 39.6000, "lon": 64.4000},
+    {"name": "Romitan", "lat": 39.7000, "lon": 64.2500},
+    {"name": "Vobkent", "lat": 39.7630, "lon": 64.6910},
+    {"name": "Bobkent", "lat": null, "lon": null},
+    {"name": "Jondor", "lat": 39.9250, "lon": 63.6800},
+    {"name": "Kogon", "lat": 39.7736, "lon": 64.5072},
+    {"name": "Qorako'l", "lat": 39.6500, "lon": 64.3560},
+    {"name": "Olot", "lat": null, "lon": null},
+    {"name": "Peshku", "lat": 40.1000, "lon": 64.8500}
+  ],
+  "Navoiy": [
+    {"name": "Navoiy shahar", "lat": 40.1039, "lon": 65.3611},
+    {"name": "Karmana", "lat": 40.1300, "lon": 65.3600},
+    {"name": "Navbahor", "lat": null, "lon": null},
+    {"name": "Zarafshon", "lat": 40.0850, "lon": 65.4720},
+    {"name": "Qiziltepa", "lat": null, "lon": null},
+    {"name": "Konimex", "lat": 40.0000, "lon": 65.9333},
+    {"name": "Nurota", "lat": 40.5300, "lon": 65.8700}
+  ],
+  "Jizzax": [
+    {"name": "Jizzax shahar", "lat": 40.1150, "lon": 67.8440},
+    {"name": "Zafarobod", "lat": 40.3500, "lon": 67.7500},
+    {"name": "Forish", "lat": 40.4000, "lon": 67.4500},
+    {"name": "Arnasoy", "lat": null, "lon": null},
+    {"name": "Baxmal", "lat": 40.2500, "lon": 67.7500},
+    {"name": "Gallaoral", "lat": null, "lon": null},
+    {"name": "Do'stlik", "lat": null, "lon": null},
+    {"name": "Zomin", "lat": 40.1500, "lon": 68.0930}
+  ],
+  "Qashqadaryo": [
+    {"name": "Qarshi shahar", "lat": 38.8570, "lon": 65.7830},
+    {"name": "Kitob", "lat": 38.8460, "lon": 66.2420},
+    {"name": "Shahrisabz", "lat": 39.8272, "lon": 66.8439},
+    {"name": "G'uzor", "lat": 38.7760, "lon": 66.2340},
+    {"name": "Dehqonobod", "lat": null, "lon": null},
+    {"name": "Qamashi", "lat": 38.6100, "lon": 66.2300},
+    {"name": "Qarshi", "lat": 38.8570, "lon": 65.7830},
+    {"name": "Kasbi", "lat": null, "lon": null}
+  ],
+  "Surxondaryo": [
+    {"name": "Termiz shahar", "lat": 37.2309, "lon": 67.2787},
+    {"name": "Boysun", "lat": 38.1000, "lon": 67.9000},
+    {"name": "Sherobod", "lat": 38.0100, "lon": 67.8000},
+    {"name": "Angor", "lat": null, "lon": null},
+    {"name": "Bandixon", "lat": null, "lon": null},
+    {"name": "Denov", "lat": 37.8690, "lon": 67.7750},
+    {"name": "Jarqao'lg'on", "lat": null, "lon": null},
+    {"name": "Qiziriq", "lat": null, "lon": null},
+    {"name": "Qumqo'rg'on", "lat": 37.8400, "lon": 67.5000}
+  ],
+  "Sirdaryo": [
+    {"name": "Guliston shahar", "lat": 40.1436, "lon": 68.7770},
+    {"name": "Boyovut", "lat": 40.2600, "lon": 68.7700},
+    {"name": "Yangiyer", "lat": 40.0900, "lon": 68.5200},
+    {"name": "Guliston", "lat": 40.1436, "lon": 68.7770},
+    {"name": "Mirzaobod", "lat": 40.6000, "lon": 68.8300},
+    {"name": "Oqoltin", "lat": null, "lon": null},
+    {"name": "Sayhunobod", "lat": null, "lon": null},
+    {"name": "Sardoba", "lat": 40.6500, "lon": 68.8300}
+  ],
+  "Namangan": [
+    {"name": "Namangan shahar", "lat": 41.0000, "lon": 71.6667},
+    {"name": "Kosonsoy", "lat": 41.1300, "lon": 71.9000},
+    {"name": "Pop", "lat": 40.8167, "lon": 71.7333},
+    {"name": "Mingbuloq", "lat": null, "lon": null},
+    {"name": "Norin", "lat": null, "lon": null},
+    {"name": "To'raqo'rg'on", "lat": 41.0180, "lon": 71.5360},
+    {"name": "Uychi", "lat": 41.1210, "lon": 71.5440},
+    {"name": "Uchro'rg'on", "lat": null, "lon": null}
+  ],
+  "Xorazm": [
+    {"name": "Urganch shahar", "lat": 41.5493, "lon": 60.6294},
+    {"name": "Xiva", "lat": 41.3793, "lon": 60.3601},
+    {"name": "Shovot", "lat": 41.4500, "lon": 60.8500},
+    {"name": "Bog'ot", "lat": 41.0100, "lon": 60.3600},
+    {"name": "Gurlan", "lat": 41.4440, "lon": 60.6580},
+    {"name": "Qo'shko'pir", "lat": 41.1100, "lon": 60.3800},
+    {"name": "Tuproqqall'a", "lat": null, "lon": null},
+    {"name": "Xazorasp", "lat": 41.5620, "lon": 60.3300},
+    {"name": "Xonqa", "lat": 41.2830, "lon": 60.3000}
+  ],
+  "Qoraqalpog‘iston Respublikasi": [
+    {"name": "Nukus shahar", "lat": 42.4584, "lon": 59.6100},
+    {"name": "Nukus tumani", "lat": 42.4584, "lon": 59.6100},
+    {"name": "Kegeyli", "lat": 42.1500, "lon": 60.0167},
+    {"name": "Chimboy", "lat": 42.2000, "lon": 60.5000},
+    {"name": "Qorao'zek", "lat": 43.0221, "lon": 60.0170},
+    {"name": "Taxtako'pir", "lat": 42.0500, "lon": 60.1667},
+    {"name": "Taxiatosh", "lat": 42.4000, "lon": 60.0000},
+    {"name": "Xo'jayli", "lat": 42.3500, "lon": 59.8667},
+    {"name": "Sho'manoy", "lat": 42.0020, "lon": 59.5000},
+    {"name": "Qonliko'l", "lat": 42.2340, "lon": 59.7090},
+    {"name": "Qo'ng'irot", "lat": 41.5000, "lon": 60.0833},
+    {"name": "Mo‘ynoq", "lat": 42.0590, "lon": 59.4430},
+    {"name": "To'rtkul", "lat": 42.1667, "lon": 59.9000},
+    {"name": "Ellikqall'a", "lat": 41.9900, "lon": 59.6300},
+    {"name": "Beruniy", "lat": 41.6850, "lon": 59.7770},
+    {"name": "Amudaryo", "lat": 41.8000, "lon": 60.0500},
+    {"name": "Bo'zatov", "lat": 40.8200, "lon": 61.1700}
+  ],
+  "Toshkent viloyati": [
+    {"name": "Angren", "lat": 41.0647, "lon": 70.3412},
+    {"name": "Bekobod", "lat": 40.2172, "lon": 69.2814},
+    {"name": "Chirchiq", "lat": 41.4676, "lon": 69.5835},
+    {"name": "Bo'ka", "lat": 40.9750, "lon": 69.6150},
+    {"name": "Bo'stonlik", "lat": null, "lon": null},
+    {"name": "Zangiota", "lat": 41.3210, "lon": 69.3600},
+    {"name": "Qibray", "lat": 41.2350, "lon": 69.4300}
+  ]
+}
+

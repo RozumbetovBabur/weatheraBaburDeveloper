@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dizimnen ótiw</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <style>
+        /* Kishi qosımsha styling qáteler hám tabıs kiriw ushın */
+        .form-message{margin-top:10px;font-size:14px;border-radius:8px;padding:10px;display:none}
+        .form-message.error{background:rgba(255,100,100,0.12);color:#ffc9c9;display:block}
+        .form-message.success{background:rgba(120,255,160,0.08);color:#dfffe0;display:block}
+        .field-error{color:#ffd6d6;font-size:13px;margin-top:6px}
+        .small-note{font-size:13px;color:rgba(255,255,255,0.8);margin-top:6px}
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Dizimnen ótiw</h2>
+        <form id="register-form" novalidate>
+
+            <div class="input-box">
+                <input id="username" type="text" name="username" placeholder="Username kiritiń" required>
+                <div id="err-username" class="field-error"></div>
+            </div>
+
+            <div class="input-box">
+                <input id="email" type="email" name="email" placeholder="Email pochta kiritiń" required>
+                <div id="err-email" class="field-error"></div>
+            </div>
+
+            <div class="input-box">
+                <input id="first_name" type="text" name="first_name" placeholder="Familiyańizdi kiritiń" required>
+                <div id="err-first_name" class="field-error"></div>
+            </div>
+
+            <div class="input-box">
+                <input id="last_name" type="text" name="last_name" placeholder="Atińizdi kiritiń" required>
+                <div id="err-last_name" class="field-error"></div>
+            </div>
+
+            <div class="input-box">
+                <input id="password" type="password" name="password" placeholder="Parol kiritiń" required>
+                <div id="err-password" class="field-error"></div>
+            </div>
+
+            <div class="input-box">
+                <input id="password2" type="password" name="password2" placeholder="Kiritken parolda qaytdan kiritiń" required>
+                <div id="err-password2" class="field-error"></div>
+            </div>
+
+            <div class="input-box">
+                <select id="region" name="region" required>
+                    <option value="">Ózińiz jasap turǵan vilayatdi saylań</option>
+                </select>
+                <div id="err-region" class="field-error"></div>
+            </div>
+
+            <div class="input-box">
+                <select id="city" name="city" required>
+                    <option value="">Qala yamasa rayondi saylań</option>
+                </select>
+                <div id="err-city" class="field-error"></div>
+            </div>
+
+            <button id="submit-btn" type="submit">Dizimnen ótiw</button>
+            <div id="form-message" class="form-message"></div>
+            <div class="register-link small-note">
+                Sizde aldın akkaunt jaratılǵan berdi? <a href="{% url 'login' %}">Login</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        /* CONFIG */
+        const REGISTER_URL = '/auth/register'; // url ornı
+        const REGIONS_JSON = '{% static "json/regions.json" %}'; // regions.json orni
+
+        /* Esletpe */
+        const form = document.getElementById('register-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const formMessage = document.getElementById('form-message');
+        const regionSelect = document.getElementById('region');
+        const citySelect = document.getElementById('city');
+
+        /* Maydan qáteligi elementler kartası */
+        const fields = ['username','email','first_name','last_name','password','password2','region','city'];
+        const errs = {};
+        fields.forEach(f => errs[f] = document.getElementById('err-' + f));
+
+        /* CSRF cookie járdemshi */
+        function getCookie(name) {
+          const cookies = document.cookie ? document.cookie.split('; ') : [];
+          for (let i=0;i<cookies.length;i++){
+            const parts = cookies[i].split('=');
+            const key = parts.shift();
+            const value = parts.join('=');
+            if(key === name) return decodeURIComponent(value);
+          }
+          return null;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        /* Utility: show form-wide message */
+        function showFormMessage(type, text){
+          if(!formMessage) return;
+          formMessage.className = 'form-message ' + (type === 'error' ? 'error' : 'success');
+          formMessage.style.display = 'block';
+          formMessage.textContent = text;
+        }
+
+        /* Utility: clear field errors + form message */
+        function clearErrors(){
+          fields.forEach(f => {
+            const el = document.getElementById('err-' + f);
+            if(el) el.textContent = '';
+          });
+          if(formMessage){
+            formMessage.style.display = 'none';
+            formMessage.textContent = '';
+          }
+        }
+
+        /* Show validation errors returned from DRF */
+        function showFieldErrors(errorObj){
+          clearErrors();
+          let shown = false;
+          for (const key in errorObj){
+            const val = errorObj[key];
+            if(fields.includes(key)){
+              const el = document.getElementById('err-' + key);
+              if(el) el.textContent = Array.isArray(val) ? val.join(', ') : String(val);
+              shown = true;
+            } else if(key === 'detail' || key === 'non_field_errors'){
+              showFormMessage('error', Array.isArray(val) ? val.join(' ') : String(val));
+              shown = true;
+            } else {
+              // unexpected error
+              showFormMessage('error', JSON.stringify(errorObj));
+              shown = true;
+            }
+          }
+          if(!shown){
+            showFormMessage('error', 'Belgisiz qátelik juz berdi.');
+          }
+        }
+
+        /* Load regions.json and populate selects */
+        fetch(REGIONS_JSON)
+          .then(res => {
+            if(!res.ok) throw new Error('Vilayat hám qalalar JSON faylı juklenbedi: ' + res.status);
+            return res.json();
+          })
+          .then(data => {
+            // clear and add default
+            regionSelect.innerHTML = '<option value="">Jasap turǵan vilayat hám Respublikani saylań</option>';
+            citySelect.innerHTML = '<option value="">Jasap turǵan qala yamas rayondi saylań</option>';
+            // add regions
+            Object.keys(data).forEach(region => {
+              const opt = document.createElement('option');
+              opt.value = region;               // value = region name
+              opt.textContent = region;         // visible text
+              regionSelect.appendChild(opt);
+            });
+
+            // on change -> fill cities
+            regionSelect.addEventListener('change', () => {
+              // reset city options but keep default
+              citySelect.innerHTML = '<option value="">Jasap turǵan qala yamas rayondi saylań</option>';
+
+              const selRegion = regionSelect.value;
+              if(!selRegion){
+                citySelect.disabled = true;
+                return;
+              }
+              citySelect.disabled = false;
+
+              // fetch cities array for selected region (safely)
+              const cities = data[selRegion] || [];
+              cities.forEach(city => {
+                const o = document.createElement('option');
+                o.value = city;         // value = city name
+                o.textContent = city;   // displayed text
+                citySelect.appendChild(o);
+              });
+
+              // If previously user had selected a city (e.g., re-render), keep it:
+              // (optional) try to restore if matches one of new options
+              const prevCity = citySelect.getAttribute('data-prev') || '';
+              if(prevCity){
+                const opts = Array.from(citySelect.options).map(o => o.value);
+                if(opts.includes(prevCity)) citySelect.value = prevCity;
+              }
+            });
+
+            // initially disable city until a region chosen
+            citySelect.disabled = true;
+          })
+          .catch(err => {
+            console.error('regions.json faydı jurklew qáteligi:', err);
+            showFormMessage('error', 'Vilayat hám rayonlar juklenbedi. Admin menen baylanısıń.');
+          });
+
+        /* Form submit handler: collect values and POST to API */
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          clearErrors();
+
+          // collect values
+          const payload = {
+            username: (document.getElementById('username')?.value || '').trim(),
+            email: (document.getElementById('email')?.value || '').trim(),
+            first_name: (document.getElementById('first_name')?.value || '').trim(),
+            last_name: (document.getElementById('last_name')?.value || '').trim(),
+            password: (document.getElementById('password')?.value || ''),
+            password2: (document.getElementById('password2')?.value || ''),
+            region: (document.getElementById('region')?.value || ''),
+            city: (document.getElementById('city')?.value || '')
+
+          };
+            console.log('Form payload:', payload);
+          // basic frontend validation
+          if(!payload.username || !payload.email || !payload.password){
+            if(!payload.username) document.getElementById('err-username').textContent = 'Username kiritiń.';
+            if(!payload.email) document.getElementById('err-email').textContent = 'Email pochta kiritiń.';
+            if(!payload.password) document.getElementById('err-password').textContent = 'Parol kiritiń.';
+            return;
+          }
+          if(payload.password !== payload.password2){
+            document.getElementById('err-password2').textContent = "Paroller mas emes!.";
+            return;
+          }
+          // ensure region/city not empty (server may allow blank but you wanted to keep them)
+          if(!payload.region){
+            document.getElementById('err-region').textContent = "Jasap turǵan vilayat yamasa Respublikasnı saylań.";
+            return;
+          }
+          if(!payload.city){
+            document.getElementById('err-city').textContent = "Jasap turǵan qala yamasa rayondi saylań.";
+            return;
+          }
+
+          // UI lock
+          const originalText = submitBtn.textContent;
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Jiberilmekte...';
+
+          try {
+            const headers = {'Content-Type': 'application/json'};
+            if(csrftoken) headers['X-CSRFToken'] = csrftoken;
+
+            const resp = await fetch(REGISTER_URL, {
+              method: 'POST',
+              headers,
+              body: JSON.stringify(payload),
+              credentials: csrftoken ? 'include' : 'same-origin'
+            });
+
+            const data = await resp.json().catch(()=> null);
+
+            if(resp.ok){
+              showFormMessage('success', "Dizimnen tabıslı turde ótdińiz! endi login betge ótkizedi.");
+              // Eger server qaytarǵan tokenler bolsa localStorage saqlaw mumkin
+              setTimeout(()=> window.location.href = "{% url 'login' %}", 900);
+            } else {
+              // show validation errors
+              if(data){
+                showFieldErrors(data);
+              } else {
+                showFormMessage('error', 'Server menen baylanıs joq yamasa belgisiz qáte juz berdi.');
+              }
+            }
+          } catch(err){
+            console.error('Submit error', err);
+            showFormMessage('error', 'Tarmaq qáteligi — iltimas tekseriń.');
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        });
+    </script>
+
+</body>
+</html>
