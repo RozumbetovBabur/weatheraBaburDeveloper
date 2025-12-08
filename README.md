@@ -118,6 +118,9 @@ qılıp docker isker tusedi
 arqalı dastur qosıladı
 Django joybar hám telegram bot 2 dásturde iske tusedi
 
+docker-compose down
+docker toqtatıladı
+
 --------------------------------------------------------------
 
 REST API — endpointları (mısal)
