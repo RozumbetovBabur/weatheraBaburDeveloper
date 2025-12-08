@@ -191,7 +191,7 @@ class CityListView(APIView):
     def get(self, request):
         import json, os
         from django.conf import settings
-        # JSON faylni o‘qish
+        # JSON fayldi oqıw ushın
         path = os.path.join(settings.BASE_DIR, 'json', 'regions.json')
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
