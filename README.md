@@ -108,22 +108,15 @@ pip install -r requirements.txt
 
 .env Fayldı joybar túbirinde jaratıw (joqarıdaǵı mısalda kórsetilgen).
 
-------------- Migrate hám collectstatic ------------- :
-
-python manage.py migrate
-python manage.py collectstatic
 
 
-Superuser jaratıw:
+------------- dockerdi iske tusiriw ------------- :
 
-python manage.py createsuperuser
-
-
-serverdi iske tusiriw:
-
-python manage.py runserver
-# Browser: http://127.0.0.1:8000/
-
+docker-compose up
+qılıp docker isker tusedi
+# Browser: http://localhost:8000/
+arqalı dastur qosıladı
+Django joybar hám telegram bot 2 dásturde iske tusedi
 
 --------------------------------------------------------------
 
