@@ -209,9 +209,9 @@ class RegionsLotView(APIView):
             with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except FileNotFoundError:
-            return Response({"detail": "regions_lot.json topilmadi."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "regions_lot.json tabılmadı"}, status=status.HTTP_404_NOT_FOUND)
         except json.JSONDecodeError:
-            return Response({"detail": "regions_lot.json sintaksis xatosi."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"detail": "regions_lot.json sintaksisi qátelike juz berdi."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(data)
 
 class WeatherView(APIView):
@@ -221,7 +221,7 @@ class WeatherView(APIView):
     # Bıraq anonim GETler ushın ol talap islenmeydi.
     CACHE_TTL = timedelta(minutes=30)
 
-    # Simple rate limit: Bir IP ushın WINDOW sekund ishinde MAX_REQ den aspasa boladi
+    # Simple rate limit: Bir IP ushın WINDOW sekundi ishinde MAX_REQ den aspasa boldı
     RATE_LIMIT_WINDOW = 60  # seconds
     RATE_LIMIT_MAX = 60     # requests per WINDOW
 
@@ -262,7 +262,7 @@ class WeatherView(APIView):
             city_key = city.strip()
             params_remote = {'q': city_key}
         else:
-            return Response({"detail": "lat/lon yamasa qala param talap qılınadı."},
+            return Response({"detail": "lat/lon yamasa qala parametirleri talap qılınadı."},
                             status=status.HTTP_400_BAD_REQUEST)
 
         units = request.query_params.get('units', 'metric')
@@ -271,7 +271,6 @@ class WeatherView(APIView):
         cutoff = timezone.now() - self.CACHE_TTL
         cached = WeatherCache.objects.filter(city_key=city_key, created_at__gte=cutoff).order_by('-created_at').first()
         if cached:
-            # DRF Response datetime ni serializatsiyalashi kerak (yoki str ga o'zgartiring)
             return Response({"source": "cache", "cached_at": cached.created_at, "data": cached.data})
 
         api_key = getattr(settings, 'OPENWEATHER_API_KEY', None)
