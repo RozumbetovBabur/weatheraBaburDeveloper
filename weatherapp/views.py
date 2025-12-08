@@ -21,7 +21,9 @@ from django.contrib import messages
 from .models import WeatherCache
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
+import os, json
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_protect
 from django.core.cache import cache
@@ -45,7 +47,7 @@ def home_page(request):
 # Profil API: bul AJAX shaqırıwları bolsa da login kerek boladı
 @login_required(login_url=settings.LOGIN_URL)
 @require_http_methods(["GET"])
-# @csrf_exempt
+@csrf_exempt
 def profile_details(request):
     user = request.user
     return JsonResponse({
@@ -58,7 +60,7 @@ def profile_details(request):
     })
 @login_required(login_url=settings.LOGIN_URL)
 @require_http_methods(["POST"])
-# @csrf_exempt
+@csrf_exempt
 def profile_update(request):
     user = request.user
     data = json.loads(request.body)
@@ -90,7 +92,7 @@ def token_login_page(request):
     # POST
     token = request.POST.get('token', '').strip()
     if not token:
-        messages.error(request, "Iltimas júzimen kirgiziń.")
+        messages.error(request, "Iltimas tokenińizdi kirgiziń.")
         return render(request, 'auth/token_login.html')
 
     try:
@@ -104,7 +106,7 @@ def token_login_page(request):
         try:
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist:
-            messages.error(request, "Júzimendagi paydalanıw tabılmadı.")
+            messages.error(request, "Token tabılmadı.")
             return render(request, 'auth/token_login.html')
 
         # Session payda etiw (Django login)
@@ -190,11 +192,27 @@ class CityListView(APIView):
         import json, os
         from django.conf import settings
         # JSON faylni o‘qish
-        path = os.path.join(settings.BASE_DIR, 'static/json/regions.json')
+        path = os.path.join(settings.BASE_DIR, 'json', 'regions.json')
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         return Response(data)
 
+
+class RegionsLotView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    # optional: cache view for 30 minutes
+    @method_decorator(cache_page(60 * 30))
+    def get(self, request):
+        path = os.path.join(settings.BASE_DIR, 'json', 'regions_lot.json')
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            return Response({"detail": "regions_lot.json topilmadi."}, status=status.HTTP_404_NOT_FOUND)
+        except json.JSONDecodeError:
+            return Response({"detail": "regions_lot.json sintaksis xatosi."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(data)
 
 class WeatherView(APIView):
     # Kópshilik ushın ruxsat-frontend paydalanıwshıları token jiberiwinde isleydi
